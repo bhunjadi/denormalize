@@ -34,7 +34,7 @@ export function migrate(collectionName, cacheField, selector){
         [key]: 1,
       }), {})
       : undefined
-      
+
     migration.collection.find(selector || {}, {fields}).forEach(doc => {
       migration.fn(null, doc)
       n++
@@ -50,7 +50,7 @@ export function autoMigrate(){
       migrate(migration.collectionName, migration.cacheField)
       MigrationHistory.insert({
         collectionName:migration.collectionName,
-        options:migration.options,
+        options:stringifiedOptions,
         date:new Date()
       })
     }    
