@@ -11,7 +11,6 @@ export function addMigration(collection, insertFn, options){
   if(opts.collection){ //prevent Error: Converting circular structure to JSON
     opts.collection = opts.collection._name
   }
-  opts = JSON.stringify(opts)
   migrations.push({
     options:opts,
     collectionName:collection._name,
@@ -28,7 +27,15 @@ export function migrate(collectionName, cacheField, selector){
   } else {
     let time = new Date()
     let n = 0
-    migration.collection.find(selector || {}).forEach(doc => {
+
+    const fields = _.isArray(migration.options.fields)
+      ? migration.options.fields.reduce((acc, key) => ({
+        ...acc,
+        [key]: 1,
+      }), {})
+      : undefined
+      
+    migration.collection.find(selector || {}, {fields}).forEach(doc => {
       migration.fn(null, doc)
       n++
     })
@@ -38,7 +45,8 @@ export function migrate(collectionName, cacheField, selector){
 
 export function autoMigrate(){
   _.each(migrations, migration => {
-    if(!MigrationHistory.findOne({collectionName:migration.collectionName, options:migration.options})){
+    const stringifiedOptions = JSON.stringify(migration.options);
+    if(!MigrationHistory.findOne({collectionName:migration.collectionName, options:stringifiedOptions})){
       migrate(migration.collectionName, migration.cacheField)
       MigrationHistory.insert({
         collectionName:migration.collectionName,
