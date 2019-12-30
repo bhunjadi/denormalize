@@ -27,15 +27,7 @@ export function migrate(collectionName, cacheField, selector){
   } else {
     let time = new Date()
     let n = 0
-
-    const fields = _.isArray(migration.options.fields)
-      ? migration.options.fields.reduce((acc, key) => ({
-        ...acc,
-        [key]: 1,
-      }), {})
-      : undefined
-
-    migration.collection.find(selector || {}, {fields}).forEach(doc => {
+    migration.collection.find(selector || {}).forEach(doc => {
       migration.fn(null, doc)
       n++
     })
