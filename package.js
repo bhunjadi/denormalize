@@ -20,7 +20,7 @@ Package.onUse(function (api) {
     'ecmascript',
     'mongo',
     'check',
-    'matb33:collection-hooks@1.0.1'
+    'matb33:collection-hooks@1.1.0'
   ])
 
   api.mainModule('cache.js', 'server')
@@ -34,8 +34,8 @@ Package.onTest(function (api) {
     'ecmascript',
     'mongo',
     'check',
-    'aldeed:collection2@3.0.3',
-    'matb33:collection-hooks@0.8.4',
+    'aldeed:collection2@3.4.1',
+    'matb33:collection-hooks@1.1.0',
     'meteortesting:mocha'
   ])
 
