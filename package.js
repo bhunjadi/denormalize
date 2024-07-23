@@ -1,43 +1,47 @@
 Package.describe({
   name: 'herteby:denormalize',
-  version: '0.6.5',
+  version: '0.6.7',
   // Brief, one-line summary of the package.
   summary: 'Simple denormalization for Meteor',
   // URL to the Git repository containing the source code for this package.
   git: 'https://github.com/herteby/denormalize',
   // By default, Meteor will default to using README.md for documentation.
   // To avoid submitting documentation, set this field to null.
-  documentation: 'README.md'
-})
+  documentation: 'README.md',
+});
 
-Npm.depends({
-  'lodash': '4.17.15',
-})
+const npmPackages = {
+  lodash: '4.17.21',
+};
 
 Package.onUse(function (api) {
-  api.versionsFrom('1.5')
-  api.use([
-    'ecmascript',
-    'mongo',
-    'check',
-    'matb33:collection-hooks@1.1.0'
-  ])
+  Npm.depends(npmPackages);
 
-  api.mainModule('cache.js', 'server')
-  api.addFiles('cacheCount.js', 'server')
-  api.addFiles('cacheField.js', 'server')
-})
+  api.versionsFrom('1.12.1');
+  api.use(['ecmascript', 'mongo', 'check', 'matb33:collection-hooks@1.2.0']);
+
+  api.mainModule('cache.js', 'server');
+  api.addFiles('cacheCount.js', 'server');
+  api.addFiles('cacheField.js', 'server');
+});
 
 Package.onTest(function (api) {
+  Npm.depends({
+    ...npmPackages,
+    chai: '4.3.4',
+  });
+
   api.use([
     'herteby:denormalize',
     'ecmascript',
     'mongo',
     'check',
     'aldeed:collection2@3.4.1',
-    'matb33:collection-hooks@1.1.0',
-    'meteortesting:mocha'
-  ])
+    'meteortesting:mocha',
+    'matb33:collection-hooks@1.2.0',
+  ]);
 
-  api.addFiles('tests.js', 'server')
-})
+  api.use(['meteortesting:mocha']);
+
+  api.addFiles('tests.js', 'server');
+});
