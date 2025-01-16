@@ -311,7 +311,7 @@ Meteor.setTimeout(()=>{
 ## Testing the package
 
 ```
-meteor test-packages packages/denormalize --driver-package=practicalmeteor:mocha
+meteor test-packages packages/denormalize --driver-package=meteortesting:mocha
 ```
 (Then open localhost:3000 in your browser)<br>
 The package currently has over 120 tests<br>
